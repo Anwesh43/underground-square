@@ -1,3 +1,4 @@
+const worker = self
 class Looper {
     constructor() {
         this.animated = false
@@ -6,7 +7,7 @@ class Looper {
         if(!this.animated) {
             this.animated = true
             this.interval = setInterval(()=>{
-                postMessage('update')
+                worker.postMessage('update')
             },50)
         }
     }
@@ -14,7 +15,7 @@ class Looper {
         if(this.animated) {
             this.animated = false
             clearInterval(this.interval)
-            postMessage('stop')
+            worker.postMessage('stop')
         }
     }
 }

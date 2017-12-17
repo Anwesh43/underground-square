@@ -41,3 +41,28 @@ class UndergroundSquareContainer {
         this.squares.push(this.curr)
     }
 }
+class LoopController {
+    constructor() {
+        this.started = false
+        this.worker = new Worker('usq_worker.js')
+    }
+    start(updatecb,stopcb){
+        if(!this.started) {
+            this.started = true
+            this.worker.postMessage('start')
+            this.worker.onmessage = (message)=> {
+                const data = message.data
+                if(data == 'update') {
+                    updatecb(()=>{
+                        this.started = false
+                        this.worker.postMessage('stop')
+                    })
+                }
+                if(data == 'stop') {
+                    stopcb()
+                    this.started = false
+                }
+            }
+        }
+    }
+}
