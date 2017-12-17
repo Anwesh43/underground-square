@@ -4,9 +4,11 @@ class Looper {
         this.animated = false
     }
     start() {
+        console.log("started")
         if(!this.animated) {
             this.animated = true
             this.interval = setInterval(()=>{
+                console.log("stopped")
                 worker.postMessage('update')
             },50)
         }
@@ -21,11 +23,12 @@ class Looper {
 }
 const looper = new Looper()
 self.onmessage = (message) => {
+    console.log(message)
     const data = message.data
-    if(message === 'start') {
+    if(data === 'start') {
         looper.start()
     }
-    else if(message == 'stop') {
+    else if(data === 'stop') {
         looper.stop()
     }
 }
