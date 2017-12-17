@@ -66,3 +66,13 @@ class LoopController {
         }
     }
 }
+const container = new UndergroundSquareContainer()
+const controller = new LoopController()
+container.create()
+window.onmousedown = () => {
+    controller.start((cb)=>{
+        container.update(cb)
+    },()=>{
+        container.create()
+    })
+}
